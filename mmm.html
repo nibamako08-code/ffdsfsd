@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>เว็บแนะนำตัว</title>
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family:'Mali', cursive;
+  color:#fff;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  background:url('https://cdn.discordapp.com/attachments/1352673897333395521/1406138142762729514/giphy.gif?ex=68a15fb2&is=68a00e32&hm=570353efe80e5bc44836acd96b2bd7dd4bdba2769feccaec16e716a22714f378') no-repeat center center/cover;
+  position:relative;
+}
+body::before {
+  content:"";
+  position:absolute; top:0; left:0; right:0; bottom:0;
+  background:rgba(0,0,0,0.55);
+  z-index:0;
+}
+
+header {
+  z-index:2;
+  text-align:center;
+  padding:1.5rem 2rem;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(10px);
+  border-radius:15px;
+  margin:1rem;
+  position:relative;
+}
+header h1 {
+  font-size:3rem;
+  font-weight:700;
+  animation:fadeSlide 1s ease forwards;
+}
+nav {
+  margin-top:1rem;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+}
+nav button, .homeBtn {
+  border-radius:12px;
+  padding:0.5rem 1rem;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(10px);
+  color:#fff;
+  border:none;
+  font-weight:500;
+  transition:all 0.25s ease;
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,0.4);
+}
+nav button:hover, .homeBtn:hover {
+  background:rgba(255,255,255,0.25);
+  transform:scale(1.05);
+  box-shadow:0 6px 20px rgba(0,0,0,0.6);
+}
+
+/* toggle switch เสียง */
+.sound-container {
+  position:absolute;
+  top:15px;
+  right:15px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.sound-icon { font-size:1.4rem; }
+.switch {
+  display:inline-block;
+  width:50px;
+  height:24px;
+  position:relative;
+}
+.switch input { display:none; }
+.slider {
+  position:absolute;
+  cursor:pointer;
+  top:0; left:0; right:0; bottom:0;
+  background-color:#ccc;
+  border-radius:34px;
+  transition:0.4s;
+}
+.slider:before {
+  position:absolute;
+  content:"";
+  height:18px;
+  width:18px;
+  left:3px;
+  bottom:3px;
+  background-color:white;
+  border-radius:50%;
+  transition:0.4s;
+}
+input:checked + .slider {
+  background-color:#2196F3;
+}
+input:checked + .slider:before {
+  transform:translateX(26px);
+}
+
+main {
+  flex:1;
+  z-index:2;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:2rem;
+}
+
+.tab {
+  display:none;
+  max-width:800px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(12px);
+  padding:2rem;
+  border-radius:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+  animation:fadeSlide 0.8s ease;
+  position: relative;
+}
+.tab.active { display:block; }
+
+.homeBtn {
+  position:absolute;
+  top:15px;
+  right:15px;
+  font-size:1.1rem;
+}
+
+.profile-img {
+  width:160px;
+  height:160px;
+  border-radius:50%;
+  object-fit:cover;
+  margin-bottom:1rem;
+  border:4px solid #fff;
+  box-shadow:0 0 15px rgba(255,255,255,0.6);
+  animation:fadeSlide 1.2s ease;
+}
+
+h2 { font-size:2rem; margin-bottom:1rem; }
+
+.links {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:1rem;
+  margin-top:1rem;
+}
+.links a {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:0.6rem 1.2rem;
+  border-radius:20px;
+  text-decoration:none;
+  color:#fff;
+  background: linear-gradient(135deg,#ff6ec4,#7873f5);
+  transition:all 0.3s ease;
+  width:200px;
+  text-align:center;
+}
+.links a:hover {
+  transform:translateY(-3px) scale(1.05);
+  filter:brightness(1.2);
+  box-shadow:0 6px 20px rgba(0,0,0,0.7);
+}
+
+.cards {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:1rem;
+  margin-top:1rem;
+}
+.card {
+  background: rgba(255,255,255,0.1);
+  padding:1rem 1.5rem;
+  border-radius:15px;
+  min-width:140px;
+  text-align:center;
+  transition:all 0.3s ease;
+  cursor:default;
+  box-shadow:0 4px 12px rgba(0,0,0,0.4);
+  font-weight:500;
+}
+.card:hover {
+  transform: translateY(-6px) scale(1.05);
+  background: rgba(255,255,255,0.3);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+}
+
+@keyframes fadeSlide {
+  from { opacity:0; transform:translateY(20px);}
+  to {opacity:1; transform:translateY(0);}
+}
+
+footer {
+  text-align:center;
+  padding:1rem;
+  font-size:0.9rem;
+  background: rgba(0,0,0,0.6);
+  z-index:2;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>สวัสดีครับ ผมชื่อ โอ๊ตโครตกระเพรา</h1>
+<nav>
+<button onclick="openTab('home')"><i class="fa-solid fa-house"></i></button>
+<button onclick="openTab('about')">เกี่ยวกับฉัน</button>
+<button onclick="openTab('skills')">ทักษะ</button>
+<button onclick="openTab('projects')">โปรเจกต์</button>
+<button onclick="openTab('contact')">ติดต่อ</button>
+</nav>
+
+<div class="sound-container">
+  <span class="sound-icon" id="soundIcon">🔊</span>
+  <label class="switch">
+    <input type="checkbox" id="soundSwitch" checked>
+    <span class="slider"></span>
+  </label>
+</div>
+</header>
+
+<main>
+<div id="home" class="tab active">
+  <img src="https://cdn.discordapp.com/attachments/1352673897333395521/1406137949246197800/d19aeebc9c77b7a1c869f9d132d24d44.jpg?ex=68a15f83&is=68a00e03&hm=c36c4f4c9e0bc534536363e2b280d18077463ad45292cd6fe927c7c24509b598" alt="Profile" class="profile-img">
+  <h2>ยินดีต้อนรับ</h2>
+  <p>นี่คือเว็บขายกระเพรา</p>
+</div>
+
+<div id="about" class="tab">
+  <button class="homeBtn" onclick="openTab('home')"><i class="fa-solid fa-house"></i></button>
+  <h2>เกี่ยวกับฉัน</h2>
+  <p>สวัสดีครับ ผมคือ คนส่งยาแห่งบ้านใหญ่ทรงช่าง นักเกรียน/นักพัฒนาวิตามิน</p>
+</div>
+
+<div id="skills" class="tab">
+  <button class="homeBtn" onclick="openTab('home')"><i class="fa-solid fa-house"></i></button>
+  <h2>ทักษะของฉัน</h2>
+  <div class="cards">
+    <div class="card"><i class="fa-solid fa-code"></i> ไม่มี</div>
+    <div class="card"><i class="fa-solid fa-paint-brush"></i> ไม่มี</div>
+    <div class="card"><i class="fa-solid fa-mobile-screen"></i> ไม่มี</div>
+    <div class="card"><i class="fa-solid fa-brain"></i> ไม่มี</div>
+    <div class="card"><i class="fa-solid fa-image"></i> ไม่มีอะไรดีเลย</div>
+  </div>
+</div>
+
+<div id="projects" class="tab">
+  <button class="homeBtn" onclick="openTab('home')"><i class="fa-solid fa-house"></i></button>
+  <h2>โปรเจกต์</h2>
+  <div class="cards">
+    <div class="card"><i class="fa-solid fa-globe"></i> ไม่มี</div>
+    <div class="card"><i class="fa-solid fa-gamepad"></i> ไม่มี</div>
+    <div class="card"><i class="fa-solid fa-chart-simple"></i> ไม่มี</div>
+    <div class="card"><i class="fa-solid fa-robot"></i> ไม่มีกูไม่รู้</div>
+  </div>
+</div>
+
+<div id="contact" class="tab">
+  <button class="homeBtn" onclick="openTab('home')"><i class="fa-solid fa-house"></i></button>
+  <h2>ช่องทางติดต่อ</h2>
+  <div class="links">
+    <a href="https://facebook.com" target="_blank"><i class="fa-brands fa-facebook"></i> Facebook</a>
+    <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a>
+    <a href="https://github.com" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+  </div>
+</div>
+</main>
+
+<audio id="clickSound" src="https://www.myinstants.com/media/sounds/click.mp3"></audio>
+
+<script>
+const soundSwitch = document.getElementById('soundSwitch');
+const soundIcon = document.getElementById('soundIcon');
+let soundEnabled = soundSwitch.checked;
+
+soundSwitch.addEventListener('change', ()=>{
+  soundEnabled = soundSwitch.checked;
+  soundIcon.textContent = soundEnabled ? '🔊' : '🔇';
+});
+
+function openTab(tabId){
+  if(soundEnabled){
+    const sound = document.getElementById("clickSound");
+    if(sound) sound.play();
+  }
+  document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+}
+</script>
+</body>
+</html>
