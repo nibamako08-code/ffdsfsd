@@ -1,1 +1,1 @@
-loadstring(game:HttpGet("https://wareguardv2.xyz/raw_anyhub?hub=starhub&script=WLVN"))()
+loadstring(game:HttpGet("https://wareguardv2.xyz/raw_anyhub?hub=starhub&script=A3"))()
